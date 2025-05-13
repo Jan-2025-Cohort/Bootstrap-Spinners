@@ -28,3 +28,32 @@ Follow these steps to build the script for your Dog API demo:
 Bonus Challenge:
 - Extract the dog breed name from the image URL and display it in the card!
 */
+
+const dogBtn = document.getElementById("dogBtn");
+const spinner = document.getElementById("spinner");
+const dogBox = document.getElementById("dogBox");
+
+dogBtn.addEventListener("click", async () => {
+  spinner.style.display = "inline-block";
+  dogBox.innerHTML = "";
+
+  try {
+    const response = await fetch("https://dog.ceo/api/breeds/image/random");
+    const data = await response.json();
+
+    dogBox.innerHTML = `
+      <div class="card mx-auto shadow" style="width: 18rem;">
+        <img src="${data.message}" class="card-img-top" alt="A cute dog" />
+        <div class="card-body">
+          <p class="card-text">Here's a good doggo for you 🐶</p>
+        </div>
+      </div>
+    `;
+  } catch (error) {
+    dogBox.innerHTML = `
+      <div class="alert alert-danger">Failed to fetch a dog. Try again!</div>
+    `;
+  } finally {
+    spinner.style.display = "none";
+  }
+});
